@@ -43,7 +43,7 @@ h1 {
 }
 
 /* ting    */
-/* Global Styles 
+/* Global Styles */
 body {
     background-color: #000;
     color: #fff;
@@ -53,7 +53,7 @@ body {
 }
 
 .container {
-    max-width: 1200px; /* Increased for better layout 
+    max-width: 1200px; /* Increased for better layout */
     margin: 20px auto;
     padding: 20px;
 }
@@ -64,7 +64,7 @@ h2 {
     text-align: center;
 }
 
-/* Exchange & Coins Grid 
+/* Exchange & Coins Grid */
 .exchange-grid, .coins-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive 3-column layout */
@@ -72,7 +72,7 @@ h2 {
     justify-content: center;
 }
 
-/* Card Styles 
+/* Card Styles */
 .exchange-card, .coin-card {
     background-color: #1a1a2e;
     border-radius: 10px;
@@ -89,7 +89,7 @@ h2 {
         transform: scale(1.05);
     }
 
-/* Exchange Section 
+/* Exchange Section */
 .exchange-logo img {
     width: 60px;
     height: 60px;
@@ -121,7 +121,7 @@ h2 {
         color: #00ff00;
     }
 
-/* Coins Section 
+/* Coins Section */
 .coin-header {
     display: flex;
     align-items: center;
@@ -155,10 +155,10 @@ h2 {
         font-size: 14px;
     }
 
-/* Responsive Styles 
+/* Responsive Styles */
 @media (max-width: 1024px) {
     .exchange-grid, .coins-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets 
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
     }
 }
 
@@ -166,7 +166,7 @@ h2 {
     .exchange-grid, .coins-grid {
         grid-template-columns: 1fr; /* Full-width cards on small screens */
     }
-/*
+
     .exchange-card, .coin-card {
         padding: 15px;
     }
@@ -174,24 +174,4 @@ h2 {
     h2 {
         font-size: 20px;
     }
-}*/
-/* Ensure Grid is Responsive */
-.exchange-grid, .coins-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row */
-    gap: 20px;
 }
-
-/* Adjust for Mobile */
-@media (max-width: 900px) {
-    .exchange-grid, .coins-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 per row for smaller screens */
-    }
-}
-
-@media (max-width: 600px) {
-    .exchange-grid, .coins-grid {
-        grid-template-columns: repeat(1, 1fr); /* 1 per row on mobile */
-    }
-}
-
