@@ -1,0 +1,17 @@
+﻿@model List<Crypto_MVC.Models.Coin>
+
+<h2>Top 250 Cryptocurrencies</h2>
+<div class="coin-container">
+    @foreach (var coin in Model)
+    {
+        <div class="coin-card">
+            <img src="@coin.Image" alt="@coin.Name" width="50" height="50" />
+            <h3>@coin.Name (@coin.Symbol.ToUpper())</h3>
+            <p>Price: $@coin.CurrentPrice</p>
+            <p>Market Cap Rank: @coin.MarketCapRank</p>
+            <p>Market Cap: $@coin.MarketCap</p>
+            <p>24h Volume: $@coin.TotalVolume</p>
+            <p>24h Change: @coin.PriceChangePercentage24h%</p>
+        </div>
+    }
+</div>

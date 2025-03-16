@@ -1,0 +1,17 @@
+﻿@model List<Crypto_MVC.Models.Exchange>
+
+<h2>Top 250 Crypto Exchanges</h2>
+<div class="exchange-container">
+    @foreach (var exchange in Model)
+    {
+        <div class="exchange-card">
+            <img src="@exchange.Image" alt="@exchange.Name" width="50" height="50" />
+            <h3>@exchange.Name</h3>
+            <p>Rank: @exchange.TrustScoreRank</p>
+            <p>24h Volume (BTC): @exchange.TradeVolume24hBtc</p>
+            <p>Country: @exchange.Country</p>
+            <p>Year Established: @exchange.YearEstablished</p>
+            <p><a href="@exchange.Url" target="_blank">Visit Exchange</a></p>
+        </div>
+    }
+</div>
