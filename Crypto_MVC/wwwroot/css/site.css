@@ -124,11 +124,11 @@ h1 {
 }
 
 .card {
-    background-color: #1e1e2f;
+    background-color: #5c5cab;
     padding: 1rem;
     border-radius: 1rem;
     text-align: center;
-    color: white;
+    color: mediumpurple;
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
     transition: transform 0.3s ease-in-out;
 }
@@ -136,3 +136,68 @@ h1 {
     .card:hover {
         transform: scale(1.05);
     }
+/* after exchange*/
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: #3f3f73;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rank {
+    font-weight: bold;
+    color: #ff9500;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #3f3f73;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.visit-btn {
+    background: #0084ff;
+}
+
+.details-btn {
+    background: #28a745;
+}
+
+.no-data {
+    text-align: center;
+    font-size: 18px;
+    color: gray;
+}

@@ -1,0 +1,52 @@
+﻿@model ExchangeModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<link rel="stylesheet" href="~/css/exchange.css" />
+
+<div class="exchange-container">
+    <h1>
+        <img src="@Model.Image" width="50px" alt="@Model.Name Logo" />
+        @Model.Name
+    </h1>
+
+    <div class="info-buttons">
+        <span class="info-badge">Trust Score: @Model.TrustScore/10</span>
+        <span class="info-badge">Volume (BTC): @Model.TradeVolumeBTC</span>
+        <span class="info-badge">Year Established: @Model.YearEstablished</span>
+    </div>
+
+    <div class="content-grid">
+        <div class="social-links">
+            <h3>Social Links</h3>
+            <p><a href="@Model.Url" target="_blank">🌐 Website</a></p>
+            <p><a href="@Model.Twitter" target="_blank">🐦 Twitter</a></p>
+            <p><a href="@Model.Facebook" target="_blank">📘 Facebook</a></p>
+        </div>
+
+        <div class="exchange-info">
+            <h3>Exchange Info</h3>
+            <p>@Model.Description</p>
+        </div>
+    </div>
+
+    <div class="trading-table">
+        <h3>Trading Coins</h3>
+        <table>
+            <tr>
+                <th>Coins</th>
+                <th>Price</th>
+                <th>Volume</th>
+            </tr>
+            @foreach (var coin in Model.Tickers)
+            {
+                <tr>
+                    <td>@coin.Base/@coin.Target</td>
+                    <td>$@coin.Last</td>
+                    <td>$@coin.Volume</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
