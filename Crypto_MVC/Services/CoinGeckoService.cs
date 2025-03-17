@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Crypto_MVC.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Crypto_MVC.Models;
 
 namespace Crypto_MVC.Services
 {
@@ -13,34 +14,41 @@ namespace Crypto_MVC.Services
         public CoinGeckoService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-        }
-
-        private async Task<string> GetApiResponseAsync(string url)
-        {
-            using var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.Add("User-Agent", "Mozilla/5.0");
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "CryptoMVCApp");
         }
 
         public async Task<List<Coin>> GetCoinsAsync()
         {
-            var url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false";
-            var response = await GetApiResponseAsync(url);
+            try
+            {
+                var response = await _httpClient.GetAsync("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd");
+                response.EnsureSuccessStatusCode();
 
-            var coins = JsonConvert.DeserializeObject<List<Coin>>(response);
-            return coins;
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Coin>>(content) ?? new List<Coin>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching coins: {ex.Message}");
+                return new List<Coin>();
+            }
         }
 
         public async Task<List<Exchange>> GetExchangesAsync()
         {
-            var url = "https://api.coingecko.com/api/v3/exchanges";
-            var response = await GetApiResponseAsync(url);
+            try
+            {
+                var response = await _httpClient.GetAsync("https://api.coingecko.com/api/v3/exchanges");
+                response.EnsureSuccessStatusCode();
 
-            var exchanges = JsonConvert.DeserializeObject<List<Exchange>>(response);
-            return exchanges;
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Exchange>>(content) ?? new List<Exchange>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching exchanges: {ex.Message}");
+                return new List<Exchange>();
+            }
         }
     }
 }

@@ -1,18 +1,28 @@
 ﻿using Crypto_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
+[Route("exchanges")]
 public class ExchangesController : Controller
 {
-    private readonly CoinGeckoService _coinGeckoService;
+    private readonly CoinGeckoService _coinService;
 
-    public ExchangesController(CoinGeckoService coinGeckoService)
+    public ExchangesController(CoinGeckoService coinService)
     {
-        _coinGeckoService = coinGeckoService;
+        _coinService = coinService;
     }
 
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        var exchanges = await _coinGeckoService.GetExchangesAsync();
-        return View(exchanges);
+        try
+        {
+            var exchanges = await _coinService.GetExchangesAsync();
+            return View(exchanges);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching exchanges: {ex.Message}");
+            return View("Error");
+        }
     }
 }

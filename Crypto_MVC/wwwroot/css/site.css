@@ -43,135 +43,96 @@ h1 {
 }
 
 /* ting    */
-/* Global Styles */
-body {
-    background-color: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+.page-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
 }
 
-.container {
-    max-width: 1200px; /* Increased for better layout */
-    margin: 20px auto;
-    padding: 20px;
-}
-
-h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Exchange & Coins Grid */
-.exchange-grid, .coins-grid {
+/*.grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive 3-column layout */
-    gap: 20px;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1rem;
 }
 
-/* Card Styles */
-.exchange-card, .coin-card {
-    background-color: #1a1a2e;
-    border-radius: 10px;
-    padding: 20px;
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+.card {
+    background-color: #1e1e2f;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    color: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    height: 250px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: space-between;
 }
 
-    .exchange-card:hover, .coin-card:hover {
-        transform: scale(1.05);
-    }
+    .card:hover {
+        transform: translateY(-5px);
+    }*/
 
-/* Exchange Section */
-.exchange-logo img {
-    width: 60px;
-    height: 60px;
+.icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 0.5rem;
 }
 
-.exchange-details {
-    margin-top: 10px;
+.info p {
+    margin: 0.25rem 0;
 }
-
-    .exchange-details h3 {
-        font-size: 18px;
-        margin: 5px 0;
-    }
-
-    .exchange-details p {
-        font-size: 14px;
-        color: #ddd;
-        margin: 3px 0;
-    }
 
 .external-link {
+    font-size: 0.85rem;
+    color: #6ca0ff;
     text-decoration: none;
-    font-size: 18px;
-    color: #fff;
-    margin-top: 10px;
 }
 
-    .external-link:hover, .external-link:focus {
-        color: #00ff00;
+    .external-link:hover {
+        text-decoration: underline;
     }
 
-/* Coins Section */
-.coin-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
+.positive {
+    color: #2ecc71;
 }
 
-    .coin-header img {
-        width: 40px;
-        height: 40px;
-    }
-
-    .coin-header h3 {
-        font-size: 18px;
-        margin: 0;
-    }
-
-.coin-info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 10px;
+.negative {
+    color: #e74c3c;
 }
 
-    .coin-info p {
-        font-size: 12px;
-        color: #ddd;
-    }
-
-    .coin-info strong {
-        font-size: 14px;
-    }
-
-/* Responsive Styles */
-@media (max-width: 1024px) {
-    .exchange-grid, .coins-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+@media (max-width: 992px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 768px) {
-    .exchange-grid, .coins-grid {
-        grid-template-columns: 1fr; /* Full-width cards on small screens */
-    }
-
-    .exchange-card, .coin-card {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 20px;
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr;
     }
 }
+
+/* jjj*/
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.card {
+    background-color: #1e1e2f;
+    padding: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    color: white;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+    }

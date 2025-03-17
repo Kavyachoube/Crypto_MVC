@@ -1,17 +1,26 @@
-﻿@model List<Crypto_MVC.Models.Coin>
+﻿@model IEnumerable<Crypto_MVC.Models.Coin>
 
-<h2>Top 250 Cryptocurrencies</h2>
-<div class="coin-container">
+@{
+    ViewData["Title"] = "CryptoCurrency Coins";
+}
+
+<h2 class="page-title">CryptoCurrency Coins</h2>
+
+<div class="grid-container">
     @foreach (var coin in Model)
     {
-        <div class="coin-card">
-            <img src="@coin.Image" alt="@coin.Name" width="50" height="50" />
+        <div class="card">
+            <img src="@coin.Image" alt="@coin.Name" class="icon" />
             <h3>@coin.Name (@coin.Symbol.ToUpper())</h3>
-            <p>Price: $@coin.CurrentPrice</p>
-            <p>Market Cap Rank: @coin.MarketCapRank</p>
-            <p>Market Cap: $@coin.MarketCap</p>
-            <p>24h Volume: $@coin.TotalVolume</p>
-            <p>24h Change: @(coin.PriceChangePercentage24h?.ToString("F2") ?? "N/A")%</p>
+            <div class="info">
+                <p><strong>Price:</strong> $@(coin.CurrentPrice.ToString("N2"))</p>
+                <p>
+                    <strong>24h Change:</strong>
+                    <span class="@(coin.PriceChangePercentage24h >= 0 ? "positive" : "negative")">
+                        @coin.PriceChangePercentage24h?.ToString("0.##") ?? "0"%
+                    </span>
+                </p>
+            </div>
         </div>
     }
 </div>

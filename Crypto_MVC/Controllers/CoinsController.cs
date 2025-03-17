@@ -1,18 +1,31 @@
 ﻿using Crypto_MVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
+[Route("coins")]
 public class CoinsController : Controller
 {
-    private readonly CoinGeckoService _coinGeckoService;
+    private readonly CoinGeckoService _coinService;
 
-    public CoinsController(CoinGeckoService coinGeckoService)
+    public CoinsController(CoinGeckoService coinService)
     {
-        _coinGeckoService = coinGeckoService;
+        _coinService = coinService;
     }
 
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
-        var coins = await _coinGeckoService.GetCoinsAsync();
-        return View(coins);
+        try
+        {
+            var coins = await _coinService.GetCoinsAsync();
+            return View(coins);
+        }
+        catch (Exception ex)
+        {
+            // Log error and return a friendly message
+            Console.WriteLine($"Error fetching coins: {ex.Message}");
+            return View("Error");
+        }
     }
 }

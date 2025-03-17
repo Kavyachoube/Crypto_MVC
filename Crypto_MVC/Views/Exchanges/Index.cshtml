@@ -1,18 +1,21 @@
-﻿@model List<Crypto_MVC.Models.Exchange>
+﻿@model IEnumerable<Crypto_MVC.Models.Exchange>
 
-<h2>Top 250 Crypto Exchanges</h2>
+@{
+    ViewData["Title"] = "CryptoCurrency Exchanges";
+}
 
-<div class="exchange-container">
+<h2 class="page-title">CryptoCurrency Exchanges</h2>
+
+<div class="grid-container">
     @foreach (var exchange in Model)
     {
-        <div class="exchange-card">
-            <img src="@exchange.Image" alt="@exchange.Name" width="50" height="50" />
+        <div class="card">
+            <img src="@exchange.Image" alt="@exchange.Name" class="icon" />
             <h3>@exchange.Name</h3>
-            <p>Rank: @exchange.TrustScoreRank</p>
-            <p>24h Volume (BTC): @exchange.TradeVolume24hBtc</p>
-            <p>Country: @exchange.Country</p>
-            <p>Year Established: @exchange.YearEstablished</p>
-            <p><a href="@exchange.Url" target="_blank">Visit Exchange</a></p>
+            <p>@exchange.Country</p>
+            <p><strong>Trust Score:</strong> @exchange.TrustScore?.ToString() ?? "N/A"</p>
+            <p><strong>24h Volume (BTC):</strong> @exchange.TradeVolume24hBtc?.ToString("N0") ?? "N/A"</p>
+            <a href="@exchange.Url" target="_blank">Visit ↗</a>
         </div>
     }
 </div>
