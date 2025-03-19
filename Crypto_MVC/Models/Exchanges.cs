@@ -20,9 +20,18 @@ namespace Crypto_MVC.Models
         public string Url { get; set; }
 
         [JsonProperty("trust_score")]
-        public int? TrustScore { get; set; }
+        public int TrustScore { get; set; }
 
         [JsonProperty("trade_volume_24h_btc")]
-        public decimal? TradeVolume24hBtc { get; set; }
+        public double TradeVolumeBTC { get; set; }
+
+        [JsonProperty("Description")]
+        public string Description { get; set; }
+
+        public int? YearEstablished { get; set; }
+
+        public string Twitter { get; set; }
+        public string Facebook { get; set; }
+        public List<TradingCoin> Tickers { get; set; } = new List<TradingCoin>();
     }
 }

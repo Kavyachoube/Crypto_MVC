@@ -1,4 +1,4 @@
-using Crypto_MVC.Services;
+using Crypto_MVC.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

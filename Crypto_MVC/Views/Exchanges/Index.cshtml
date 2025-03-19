@@ -23,8 +23,8 @@ else
 
                 <h3>@exchange.Exchange.Name</h3>
                 <p><strong>Country:</strong> @(string.IsNullOrEmpty(exchange.Exchange.Country) ? "N/A" : exchange.Exchange.Country)</p>
-                <p><strong>Trust Score:</strong> @(exchange.Exchange.TrustScore?.ToString() ?? "N/A")</p>
-                <p><strong>24h Volume (BTC):</strong> @(exchange.Exchange.TradeVolume24hBtc?.ToString("N0") ?? "N/A")</p>
+                <p><strong>Trust Score:</strong> @(exchange.Exchange.TrustScore.ToString() ?? "N/A")</p>
+                <p><strong>24h Volume (BTC):</strong> @(exchange.Exchange.TradeVolumeBTC.ToString("N0") ?? "N/A")</p>
 
                 <div class="card-footer">
                     <a href="@exchange.Exchange.Url" target="_blank" class="btn visit-btn">Visit ↗</a>

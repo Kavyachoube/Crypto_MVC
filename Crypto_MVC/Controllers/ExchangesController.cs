@@ -1,6 +1,5 @@
-﻿using Crypto_MVC.Services;
+﻿using Crypto_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -14,7 +13,7 @@ public class ExchangesController : Controller
         _coinService = coinService;
     }
 
-    // GET: /exchanges
+    // ✅ Fetch all exchanges
     [HttpGet("")]
     public async Task<IActionResult> Index()
     {
@@ -30,29 +29,33 @@ public class ExchangesController : Controller
         }
     }
 
-    // GET: /exchanges/{id}
-    // ✅ Fetch exchange details
+    // ✅ Fetch exchange details by ID
     [HttpGet("{id}")]
     public async Task<IActionResult> Details(string id)
     {
-        if (string.IsNullOrEmpty(id))
+        var exchange = await _coinService.GetExchangeByIdAsync(id);
+        if (exchange == null)
         {
-            return BadRequest("Exchange ID is required.");
+            return NotFound("Exchange not found.");
         }
 
-        try
+        var exchangeModel = new ExchangeModel
         {
-            var exchange = await _coinService.GetExchangeByIdAsync(id);
-            if (exchange == null)
-            {
-                return NotFound();
-            }
-            return View(exchange);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error fetching exchange details: {ex.Message}");
-            return View("Error", ex.Message);
-        }
+            Id = exchange.Id,
+            Name = exchange.Name,
+            Description = exchange.Description,
+            Url = exchange.Url,
+            Image = exchange.Image,
+            TrustScore = exchange.TrustScore,
+            YearEstablished = exchange.YearEstablished,
+            TradeVolumeBTC = exchange.TradeVolumeBTC,
+            Twitter = exchange.Twitter,
+            Facebook = exchange.Facebook,
+            Tickers = exchange.Tickers ?? new List<TradingCoin>() // Null Check and Initialize
+        };
+
+        return View(exchangeModel);
     }
-}
+    }
+
+

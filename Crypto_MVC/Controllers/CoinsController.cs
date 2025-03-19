@@ -1,9 +1,5 @@
-﻿using Crypto_MVC.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 
-[Route("coins")]
 public class CoinsController : Controller
 {
     private readonly CoinGeckoService _coinService;
@@ -13,6 +9,7 @@ public class CoinsController : Controller
         _coinService = coinService;
     }
 
+    // Fetch list of coins
     [HttpGet("")]
     public async Task<IActionResult> Index()
     {
@@ -23,9 +20,8 @@ public class CoinsController : Controller
         }
         catch (Exception ex)
         {
-            // Log error and return a friendly message
             Console.WriteLine($"Error fetching coins: {ex.Message}");
-            return View("Error");
+            return View("Error", ex.Message);
         }
     }
 }

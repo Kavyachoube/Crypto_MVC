@@ -6,47 +6,57 @@
 <link rel="stylesheet" href="~/css/exchange.css" />
 
 <div class="exchange-container">
-    <h1>
-        <img src="@Model.Image" width="50px" alt="@Model.Name Logo" />
-        @Model.Name
-    </h1>
-
-    <div class="info-buttons">
-        <span class="info-badge">Trust Score: @Model.TrustScore/10</span>
-        <span class="info-badge">Volume (BTC): @Model.TradeVolumeBTC</span>
-        <span class="info-badge">Year Established: @Model.YearEstablished</span>
+    <div class="exchange-header">
+        <img src="@Model.Image" alt="Exchange Logo" class="exchange-logo">
+        <h1 class="exchange-name">@Model.Name</h1>
+        <p class="exchange-details">
+            Trust Score: <span>@Model.TrustScore/10</span> |
+            Volume (BTC): <span>@Model.TradeVolumeBTC</span> |
+            Year Established: <span>@Model.YearEstablished</span>
+        </p>
     </div>
 
-    <div class="content-grid">
-        <div class="social-links">
-            <h3>Social Links</h3>
-            <p><a href="@Model.Url" target="_blank">🌐 Website</a></p>
-            <p><a href="@Model.Twitter" target="_blank">🐦 Twitter</a></p>
-            <p><a href="@Model.Facebook" target="_blank">📘 Facebook</a></p>
-        </div>
-
-        <div class="exchange-info">
-            <h3>Exchange Info</h3>
-            <p>@Model.Description</p>
-        </div>
+    <div class="exchange-links">
+        <h2>Social Links</h2>
+        <a href="@Model.Url" class="social-link" target="_blank">🌐 Website</a>
+        @if (!string.IsNullOrEmpty(Model.Twitter))
+        {
+            <a href="@Model.Twitter" class="social-link" target="_blank">🐦 Twitter</a>
+        }
+        @if (!string.IsNullOrEmpty(Model.Facebook))
+        {
+            <a href="@Model.Facebook" class="social-link" target="_blank">📘 Facebook</a>
+        }
     </div>
 
-    <div class="trading-table">
-        <h3>Trading Coins</h3>
+    <div class="exchange-info">
+        <h2>Exchange Info</h2>
+        <p>@Model.Description</p>
+    </div>
+
+    <div class="trading-coins">
+        <h2>Trading Coins</h2>
         <table>
-            <tr>
-                <th>Coins</th>
-                <th>Price</th>
-                <th>Volume</th>
-            </tr>
-            @foreach (var coin in Model.Tickers)
-            {
+            <thead>
                 <tr>
-                    <td>@coin.Base/@coin.Target</td>
-                    <td>$@coin.Last</td>
-                    <td>$@coin.Volume</td>
+                    <th>Coins</th>
+                    <th>Price</th>
+                    <th>Volume</th>
                 </tr>
-            }
-        </table>
-    </div>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var ticker in Model.Tickers)
+                {
+                    <tr>
+                        <td>@ticker.Base/@ticker.Target</td>
+                        <td>$@ticker.Last</td>
+                        <td>$@ticker.Volume</td>
+                    </tr>
+                }
+                }
+                else
+                {
+                <tr>
+                    <td colspan="3">No trading data available.</td>
+                </tr>
+                }
