@@ -20,3 +20,6 @@
         </div>
     `;
     });
+    var content = await response.Content.ReadAsStringAsync();
+    return System.Text.Json.JsonSerializer.Deserialize < Coin > (content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+

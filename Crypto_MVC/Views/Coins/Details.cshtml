@@ -1,0 +1,63 @@
+﻿@model Crypto_MVC.Models.Coin
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<link rel="stylesheet" href="~/css/coin-details.css" />
+
+<div class="coin-container">
+    <!-- Left Panel: Coin Overview -->
+    <div class="coin-overview">
+        <div class="coin-header">
+            <img src="@Model.Image" alt="@Model.Name Logo" class="coin-logo">
+            <h1>@Model.Name (@Model.Symbol.ToUpper())</h1>
+            <span class="price-change @(Model.PriceChangePercentage24h >= 0 ? "positive" : "negative")">
+                @(Model.PriceChangePercentage24h?.ToString("0.00") ?? "0.00")%
+            </span>
+            <button class="watchlist-btn">⭐ Add to Watchlist</button>
+        </div>
+
+        <!-- Graph Section -->
+        <div class="coin-graph">
+            <canvas id="coinChart"></canvas>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="coin-stats">
+            <p>Market Cap Rank: #@Model.MarketCapRank</p>
+            <p>Market Cap: $@Model.MarketCap.ToString("N0")</p>
+            <p>Volume (24h): $@Model.TotalVolume.ToString("N0")</p>
+            <p>Circulating Supply: @Model.CirculatingSupply.ToString("N0") @Model.Symbol.ToUpper()</p>
+        </div>
+    </div>
+
+    <!-- Right Panel: Information and Description -->
+    <div class="coin-info">
+        <h2>Information</h2>
+        <a href="@Model.Links?.Homepage?.FirstOrDefault()" target="_blank">🌐 Website</a>
+        <a href="@Model.Links?.Repos?.Github?.FirstOrDefault()" target="_blank">🐙 Github</a>
+        <a href="https://twitter.com/@Model.Links?.Twitter" target="_blank">🐦 Twitter</a>
+
+        <h2>Description</h2>
+        <p>@(Model.Description?.ContainsKey("en") == true ? Model.Description["en"] : "Description not available")</p>
+    </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('coinChart').getContext('2d');
+    const data = @Html.Raw(Json.Serialize(Model.Sparkline?.Price ?? new List<double>()));
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.map((_, index) => index),
+            datasets: [{
+                label: 'Price (USD)',
+                data: data,
+                borderColor: 'rgb(75, 192, 192)',
+                fill: false
+            }]
+        }
+    });
+</script>
