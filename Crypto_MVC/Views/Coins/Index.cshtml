@@ -21,7 +21,7 @@
                     </span>
                 </p>
                 <!-- Fix: Added a link to view details -->
-                <a href="/Coins/Details/@coin.Id" class="details-link">View Details →</a>
+                <a href="@Url.Action("Details", "Coins", new { coinId = coin.Id })">View Details</a>
             </div>
         </div>
     }

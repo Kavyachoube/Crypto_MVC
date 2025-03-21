@@ -27,7 +27,7 @@ public class CoinsController : Controller
             return View("Error", ex.Message);
         }
     }
-    [HttpGet("Details/{coinId}")]
+    [HttpGet("/Coins/Details/{coinId}")]
     public async Task<IActionResult> Details(string coinId)
     {
         var coin = await _coinService.GetCoinDetailsAsync(coinId);

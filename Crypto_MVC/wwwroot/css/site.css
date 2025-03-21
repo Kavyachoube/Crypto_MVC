@@ -257,4 +257,57 @@ button.watchlist-btn {
     button.watchlist-btn:hover {
         background-color: #455A64;
     }
+/* auth css */
+.auth-container {
+    width: 400px;
+    margin: 50px auto;
+    background-color: #345B63;
+    padding: 30px;
+    border-radius: 10px;
+    color: #fff;
+}
 
+h2 {
+    margin-bottom: 20px;
+    color: #D4ECDD;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #00ADB5;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #008C9E;
+    }
+
+a {
+    color: #00ADB5;
+}
+
+.success-message {
+    background-color: #D4EDDA;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
