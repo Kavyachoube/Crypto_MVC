@@ -329,3 +329,62 @@ a {
     border-radius: 5px;
     margin-bottom: 10px;
 }*/
+/* post */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #00aaff;
+}
+
+.container {
+    background-color: #1e1e2f;
+    border-radius: 12px;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2a2a40;
+    color: #ffffff;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+.post-card {
+    background-color: #2a2a40;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+a {
+    color: #00aaff;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+

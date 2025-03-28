@@ -1,4 +1,9 @@
-﻿ALTER TABLE Register
-ADD 
-    LastLoginDate DATETIME NULL,
-    FailedLoginAttempts INT DEFAULT 0;
+﻿CREATE TABLE Posts (
+    Id INT PRIMARY KEY IDENTITY,
+    Title NVARCHAR(255) NOT NULL,
+    Content NVARCHAR(MAX) NOT NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    UpdatedAt DATETIME NULL,
+    UserId INT,
+    FOREIGN KEY (UserId) REFERENCES Register(Id)
+);

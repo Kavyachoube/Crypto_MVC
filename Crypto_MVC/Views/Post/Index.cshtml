@@ -1,0 +1,39 @@
+﻿@model List<Crypto_MVC.Models.PostModel>
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<h1>Posts</h1>
+
+<form method="post" asp-controller="Post" asp-action="Create">
+    <label>Title</label>
+    <input type="text" name="Title" required />
+
+    <label>Content</label>
+    <textarea name="Content" required></textarea>
+
+    <button type="submit">Create Post</button>
+</form>
+
+<h3>All Posts</h3>
+@if (Model.Any())
+{
+    @foreach (var post in Model)
+    {
+        <div>
+            <h4>@post.Title</h4>
+            <p>@post.Content</p>
+            <p>Created at: @post.CreatedAt</p>
+            @if (post.UpdatedAt.HasValue)
+            {
+                <p>Updated at: @post.UpdatedAt</p>
+            }
+            <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+            <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
+        </div>
+    }
+}
+else
+{
+    <p>No Posts yet. Create Your First Post!</p>
+}
