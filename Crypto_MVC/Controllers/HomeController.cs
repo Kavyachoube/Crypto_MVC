@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
+using System.Security.Claims;
 
 namespace Crypto_MVC.Controllers
 {
@@ -54,12 +55,13 @@ namespace Crypto_MVC.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
                 string hashedPassword = RegisterModel.HashPassword(model.Password);
-                using (SqlConnection con = new SqlConnection("Server = (localdb)\\MSSQLLocalDB; Database = CryptoVerseDB; Trusted_Connection = True"))
+
+                using (SqlConnection con = new SqlConnection("Server=(localdb)\\MSSQLLocalDB; Database=CryptoVerseDB; Trusted_Connection=True"))
                 {
                     SqlCommand cmd = new SqlCommand("SELECT * FROM Register WHERE Username=@Username AND Password=@Password AND Role=@Role", con);
                     cmd.Parameters.AddWithValue("@Username", model.Username);
@@ -69,9 +71,23 @@ namespace Crypto_MVC.Controllers
                     con.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    if (reader.HasRows)
+                    if (reader.HasRows && reader.Read())
                     {
+                        var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, model.Username),
+                    new Claim(ClaimTypes.Role, model.Role)
+                };
+
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties { IsPersistent = true };
+
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                                       new ClaimsPrincipal(claimsIdentity),
+                                                       authProperties);
+
                         reader.Close();
+
                         cmd = new SqlCommand("UPDATE Register SET LastLoginDate = GETDATE() WHERE Username=@Username", con);
                         cmd.Parameters.AddWithValue("@Username", model.Username);
                         cmd.ExecuteNonQuery();
@@ -88,6 +104,7 @@ namespace Crypto_MVC.Controllers
             }
             return View(model);
         }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

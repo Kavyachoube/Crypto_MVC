@@ -1,24 +1,17 @@
-
 using Crypto_MVC.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Database
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
-
 // Configure Authentication
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-   /* .AddCookie(options =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
         options.LoginPath = "/Home/Login";
         options.LogoutPath = "/Home/Logout";
-        options.AccessDeniedPath = "/Home/Register";
     });
-builder.Services.AddAuthorization();*/
 
+builder.Services.AddAuthorization();
 
 // Register HttpClient for external API calls (e.g., CoinGeckoService)
 builder.Services.AddHttpClient<CoinGeckoService>();
@@ -41,7 +34,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 // Configure Routes
 app.MapControllerRoute(

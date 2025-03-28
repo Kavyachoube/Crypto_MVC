@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @{
-    var isAuthenticated = User.Identity.IsAuthenticated;
-    var isAdmin = User.IsInRole("Admin");
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 }
 
 <!DOCTYPE html>
@@ -34,16 +34,15 @@
                     }
                 </ul>
 
-                 <!-- Search Form -->
+                <!-- Search Form -->
                 <form class="d-flex align-items-center" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search Coins" style="width: 200px;">
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
 
-
                 @if (isAuthenticated)
                 {
-                    <a class="btn btn-light ms-3" href="/Home/Logout">Sign Out</a>
+                    <a class="btn btn-light ms-3" href="/Home/Logout">Logout</a>
                 }
                 else
                 {
