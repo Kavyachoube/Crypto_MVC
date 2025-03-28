@@ -1,85 +1,95 @@
 ﻿@using Newtonsoft.Json
+
 @model Crypto_MVC.Models.Coin
-
 @{
-    ViewData["Title"] = Model?.Name ?? "Coin Not Found";
+    ViewData["Title"] = $"{Model.Name} Details - CryptoVerse";
 }
 
-<link rel="stylesheet" href="~/css/site.css">
-
-@if (Model == null)
-{
-    <div class="error-message">
-        <h1>Coin details not available</h1>
-        <p>Sorry, we couldn't fetch the details for the coin. Please try again later or check the coin ID.</p>
-        <a href="/Coins" class="back-btn">🔙 Back to Coins</a>
+<div class="container my-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-white">@Model.Name (@Model.Symbol.ToUpper())</h1>
+        <span class="badge bg-success fs-5"> @Model.PriceChangePercentage24h?.ToString("0.00")% </span>
     </div>
-}
-else
-{
-    <div class="coin-container">
-        <!-- Left Panel: Coin Overview -->
-        <div class="coin-overview">
-            <div class="coin-header">
-                <img src="@Model.Image" alt="@Model.Name Logo" class="coin-logo">
-                <h1>@Model.Name (@Model.Symbol?.ToUpper())</h1>
-                <span class="price-change @(Model.PriceChangePercentage24h >= 0 ? "positive" : "negative")">
-                    @(Model.PriceChangePercentage24h?.ToString("0.00") ?? "0.00")%
-                </span>
-                <button class="watchlist-btn">⭐ Add to Watchlist</button>
-            </div>
 
-            <!-- Graph Section -->
-            <div class="coin-graph">
-                <canvas id="coinChart"></canvas>
-            </div>
+    <!-- Details and Chart Section -->
+    <div class="row">
+        <!-- Left Section (Coin Details + Chart) -->
+        <div class="col-lg-8">
+            <div class="card bg-dark text-white p-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        <img src="@Model.Image" alt="@Model.Name Logo" class="me-3" width="50" height="50">
+                        <h4>@Model.Name</h4>
+                    </div>
+                    <button class="btn btn-primary">Add to Watchlist</button>
+                </div>
 
-            <!-- Stats Section -->
-            <div class="coin-stats">
-                <p>Market Cap Rank: @(Model.MarketCapRank > 0 ? $"#{Model.MarketCapRank}" : "N/A")</p>
-                <p>Market Cap: $@(Model.MarketCap.ToString("N0"))</p>
-                <p>Volume (24h): $@(Model.TotalVolume.ToString("N0"))</p>
-                <p>Circulating Supply: @(Model.CirculatingSupply > 0 ? $"{Model.CirculatingSupply:N0} {Model.Symbol?.ToUpper()}" : "N/A")</p>
+                <!-- Chart Placeholder -->
+                <canvas id="priceChart"></canvas>
+
+                <!-- Market Stats -->
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <p><strong>Market Cap Rank:</strong> #@Model.MarketCapRank</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Market Cap:</strong> $@Model.MarketCap.ToString("N0")</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Volume (24h):</strong> $@Model.TotalVolume.ToString("N0")</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Circulating Supply:</strong> @Model.CirculatingSupply.ToString("N0") BTC</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Right Panel: Information and Description -->
-        <div class="coin-info">
-            <h2>Information</h2>
-            <a href="@Model.Links?.Homepage?.FirstOrDefault()" target="_blank">🌐 Website</a>
-            <a href="@Model.Links?.Repos?.Github?.FirstOrDefault()" target="_blank">🐙 Github</a>
-            @if (!string.IsNullOrEmpty(Model.Links?.Twitter))
-            {
-                <a href="https://twitter.com/@Model.Links.Twitter" target="_blank">🐦 Twitter</a>
-            }
+        <!-- Right Section (Info and Description) -->
+        <div class="col-lg-4">
+            <!-- Information Section -->
+            <div class="card bg-dark text-white p-4 mb-3">
+                <h5>Information</h5>
+                <p><a href="@Model.Links.Homepage[0]" target="_blank" class="text-primary">🌐 Website</a></p>
+                <p><a href="https://github.com/@Model.Links.Repos.Github[0]" target="_blank" class="text-success">💻 Github</a></p>
+                <p><a href="https://twitter.com/@Model.Links.Twitter" target="_blank" class="text-info">🐦 Twitter</a></p>
+            </div>
 
-            <h2>Description</h2>
-            <p>@(Model.Description?.ContainsKey("en") == true ? Model.Description["en"] : "Description not available")</p>
+            <!-- Description Section -->
+            <div class="card bg-dark text-white p-4">
+                <h5>Description</h5>
+                <p>@Model.Description["en"]</p>
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- Chart.js Script -->
+@section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('coinChart').getContext('2d');
-        const data = @Html.Raw(JsonConvert.SerializeObject(Model.Sparkline?.Price ?? new List<double>()));
-
-
-        if (data.length === 0) {
-            document.querySelector(".coin-graph").innerHTML = "<p>No price data available.</p>";
-        } else {
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.map((_, index) => index),
-                    datasets: [{
-                        label: 'Price (USD)',
-                        data: data,
-                        borderColor: 'rgb(75, 192, 192)',
-                        fill: false
-                    }]
+        const sparklineData = @Html.Raw(JsonConvert.SerializeObject(Model.Sparkline.Price));
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: sparklineData.map((_, index) => index),
+                datasets: [{
+                    label: 'Price (USD)',
+                    data: sparklineData,
+                    borderColor: '#00b894',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { display: false },
+                    y: { beginAtZero: false }
                 }
-            });
-        }
+            }
+        });
     </script>
 }

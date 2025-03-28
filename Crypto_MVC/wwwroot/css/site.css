@@ -175,7 +175,7 @@ h1 {
 .social-link {
     display: inline-block;
     margin: 5px;
-    color: #cc0066;
+    color: #0099e6;
     text-decoration: none;
 }
 
@@ -207,7 +207,7 @@ th {
 }
 /* after coins */
 
-.coin-container {
+/*.coin-container {
     display: flex;
     justify-content: space-between;
     padding: 20px;
@@ -256,8 +256,26 @@ button.watchlist-btn {
 
     button.watchlist-btn:hover {
         background-color: #455A64;
-    }
-/* auth css */
+    } */
+body {
+    background-color: #1e1e2f;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card {
+    border-radius: 16px;
+}
+
+canvas {
+    max-height: 300px;
+}
+
+/* auth css 
 .auth-container {
     width: 400px;
     margin: 50px auto;
@@ -310,4 +328,4 @@ a {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
-}
+}*/

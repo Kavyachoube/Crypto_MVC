@@ -6,19 +6,28 @@
 <link rel="stylesheet" href="~/css/exchange.css" />
 
 <div class="exchange-container">
+    <!-- Header Section -->
     <div class="exchange-header">
         <img src="@Model.Image" alt="Exchange Logo" class="exchange-logo">
         <h1 class="exchange-name">@Model.Name</h1>
         <p class="exchange-details">
             Trust Score: <span>@Model.TrustScore/10</span> |
-            Volume (BTC): <span>@Model.TradeVolumeBTC</span> |
-            Year Established: <span>@Model.YearEstablished</span>
+            Volume (BTC): <span>@Model.TradeVolumeBTC.ToString("N2")</span> |
+            Year Established: <span>@(Model.YearEstablished?.ToString() ?? "N/A")</span>
         </p>
     </div>
 
+    <!-- Social Links Section -->
     <div class="exchange-links">
         <h2>Social Links</h2>
-        <a href="@Model.Url" class="social-link" target="_blank">🌐 Website</a>
+        @if (!string.IsNullOrEmpty(Model.Url))
+        {
+            <a href="@Model.Url" class="social-link" target="_blank">🌐 Website</a>
+        }
+        else
+        {
+            <p class="text-danger">Website link not available</p>
+        }
         @if (!string.IsNullOrEmpty(Model.Twitter))
         {
             <a href="@Model.Twitter" class="social-link" target="_blank">🐦 Twitter</a>
@@ -29,34 +38,46 @@
         }
     </div>
 
+    <!-- Exchange Info Section -->
     <div class="exchange-info">
         <h2>Exchange Info</h2>
-        <p>@Model.Description</p>
+        <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "No description available." : Model.Description)</p>
     </div>
 
+    <!-- Trading Coins Section -->
     <div class="trading-coins">
         <h2>Trading Coins</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Coins</th>
-                    <th>Price</th>
-                    <th>Volume</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var ticker in Model.Tickers)
-                {
+        @if (Model.Tickers != null && Model.Tickers.Any())
+        {
+            <table class="table table-bordered">
+                <thead class="table-dark">
                     <tr>
-                        <td>@ticker.Base/@ticker.Target</td>
-                        <td>$@ticker.Last</td>
-                        <td>$@ticker.Volume</td>
+                        <th>Coins</th>
+                        <th>Price (USD)</th>
+                        <th>Volume (USD)</th>
                     </tr>
-                }
-                }
-                else
-                {
-                <tr>
-                    <td colspan="3">No trading data available.</td>
-                </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var ticker in Model.Tickers)
+                    {
+                        <tr>
+                            <td>@ticker.Base / @ticker.Target</td>
+                            <td>$@ticker.Last.ToString("N2")</td>
+                            <td>$@ticker.Volume.ToString("N2")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-danger">No trading data available.</p>
+        }
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="text-center mt-5">
+        <p>&copy; @DateTime.Now.Year CryptoVerse. All rights reserved.</p>
+    </footer>
+</div>
+ 
