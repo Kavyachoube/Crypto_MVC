@@ -1,4 +1,4 @@
-body {
+﻿body {
     background-color: #0a0a0a;
     color: #fff;
     font-family: Arial, sans-serif;
@@ -269,11 +269,19 @@ a {
 
 .card {
     border-radius: 16px;
+    background-color: #2a2a3d;
 }
 
 canvas {
     max-height: 300px;
 }
+
+/* ✨ New description style */
+.description-box {
+    margin-top: 20px;
+    width: 100%;
+}
+
 
 /* auth css 
 .auth-container {

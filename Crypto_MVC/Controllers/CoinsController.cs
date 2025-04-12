@@ -27,22 +27,18 @@ public class CoinsController : Controller
             return View("Error", ex.Message);
         }
     }
-    [HttpGet("/Coins/Details/{id}")]
+    [HttpGet("Coins/Details/{id}")]
     public async Task<IActionResult> Details(string id)
     {
         if (string.IsNullOrEmpty(id))
-        {
-            return NotFound();
-        }
+            return NotFound("Coin ID cannot be empty.");
 
         var coin = await _coinService.GetCoinDetailsAsync(id);
 
         if (coin == null)
-        {
-            return NotFound();
-        }
+            return NotFound($"Coin with ID '{id}' not found.");
 
-        ViewBag.SparklineJson = JsonConvert.SerializeObject(coin.Sparkline.Price);
+        ViewBag.SparklineJson = JsonConvert.SerializeObject(coin.Sparkline?.Price);
         return View(coin);
     }
 }

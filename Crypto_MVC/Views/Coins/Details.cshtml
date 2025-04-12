@@ -1,6 +1,5 @@
 ﻿@using Newtonsoft.Json
-
-@model Crypto_MVC.Models.Coin
+@model Crypto_MVC.Models.CoinDetail
 @{
     ViewData["Title"] = $"{Model.Name} Details - CryptoVerse";
 }
@@ -25,8 +24,15 @@
                     <button class="btn btn-primary">Add to Watchlist</button>
                 </div>
 
-                <!-- Chart Placeholder -->
-                <canvas id="priceChart"></canvas>
+                <!-- Chart Placeholder with Error Handling -->
+                @if (Model.Sparkline?.Price != null && Model.Sparkline.Price.Any())
+                {
+                    <canvas id="priceChart"></canvas>
+                }
+                else
+                {
+                    <p>No Sparkline data available for this coin.</p>
+                }
 
                 <!-- Market Stats -->
                 <div class="row mt-4">
@@ -48,18 +54,28 @@
 
         <!-- Right Section (Info and Description) -->
         <div class="col-lg-4">
-            <!-- Information Section -->
+            <!-- Information Section with Null Checks -->
             <div class="card bg-dark text-white p-4 mb-3">
                 <h5>Information</h5>
-                <p><a href="@Model.Links.Homepage[0]" target="_blank" class="text-primary">🌐 Website</a></p>
-                <p><a href="https://github.com/@Model.Links.Repos.Github[0]" target="_blank" class="text-success">💻 Github</a></p>
-                <p><a href="https://twitter.com/@Model.Links.Twitter" target="_blank" class="text-info">🐦 Twitter</a></p>
+                <p>
+                    <a href="@(Model.Links?.Homepage?.FirstOrDefault() ?? "#")" target="_blank" class="text-primary">🌐 Website</a>
+                </p>
+                <p>
+                    <a href="@(Model.Links?.Repos?.Github?.FirstOrDefault() ?? "#")" target="_blank" class="text-success">💻 Github</a>
+                </p>
+                <p>
+                    <a href="https://twitter.com/@(Model.Links?.Twitter ?? "#")" target="_blank" class="text-info">🐦 Twitter</a>
+                </p>
             </div>
 
-            <!-- Description Section -->
+            <!-- Description Section with Null Checks -->
             <div class="card bg-dark text-white p-4">
                 <h5>Description</h5>
-                <p>@Model.Description["en"]</p>
+                <p>
+                    @(Model.Description != null && Model.Description.ContainsKey("en")
+                        ? Model.Description["en"]
+                        : "Description not available.")
+                </p>
             </div>
         </div>
     </div>
@@ -68,28 +84,31 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const sparklineData = @Html.Raw(JsonConvert.SerializeObject(Model.Sparkline.Price));
-        const ctx = document.getElementById('priceChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: sparklineData.map((_, index) => index),
-                datasets: [{
-                    label: 'Price (USD)',
-                    data: sparklineData,
-                    borderColor: '#00b894',
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: { display: false },
-                    y: { beginAtZero: false }
+        const sparklineData = @Html.Raw(JsonConvert.SerializeObject(Model.Sparkline?.Price ?? new List<double>()));
+
+        if (sparklineData.length) {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sparklineData.map((_, index) => index),
+                    datasets: [{
+                        label: 'Price (USD)',
+                        data: sparklineData,
+                        borderColor: '#00b894',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { display: false },
+                        y: { beginAtZero: false }
+                    }
                 }
-            }
-        });
+            });
+        }
     </script>
 }
