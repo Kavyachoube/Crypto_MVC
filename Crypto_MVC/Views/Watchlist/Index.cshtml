@@ -1,0 +1,29 @@
+﻿@model List<Crypto_MVC.Models.CoinDetail>
+@{
+    ViewData["Title"] = "My Watchlist";
+}
+
+<h2 class="text-center mb-4">My Watchlist</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Your watchlist is currently empty.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var coin in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card bg-dark text-white p-3 h-100">
+                    <h5>@coin.Name (@coin.Symbol.ToUpper())</h5>
+                    <p>Price: $@coin.CurrentPrice</p>
+                    <form asp-action="Remove" asp-controller="Watchlist" method="post">
+                        <input type="hidden" name="id" value="@coin.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}

@@ -21,7 +21,12 @@
                         <img src="@Model.Image" alt="@Model.Name Logo" class="me-3" width="50" height="50">
                         <h4>@Model.Name</h4>
                     </div>
-                    <button class="btn btn-primary">Add to Watchlist</button>
+
+                    <!-- ✅ Add to Watchlist POST form -->
+                    <form asp-action="Add" asp-controller="Watchlist" method="post" class="mb-0">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+                    </form>
                 </div>
 
                 <!-- Chart Placeholder with Error Handling -->

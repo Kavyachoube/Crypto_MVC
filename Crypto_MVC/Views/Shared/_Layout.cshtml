@@ -1,7 +1,16 @@
 ﻿@using System.Security.Claims
+@using Crypto_MVC.Helpers
 @{
     var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
     var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+    var watchlistCount = 0;
+    if (isAuthenticated)
+    {
+        var session = Context?.Session;
+        var items = session?.GetObject<List<string>>("Watchlist");
+        watchlistCount = items?.Count ?? 0;
+    }
 }
 
 <!DOCTYPE html>
@@ -29,7 +38,17 @@
 
                     @if (isAuthenticated)
                     {
-                        <li class="nav-item"><a class="nav-link text-white" href="/Watchlist">Watchlist</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white position-relative" href="/Watchlist">
+                                Watchlist
+                                @if (watchlistCount > 0)
+                                {
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        @watchlistCount
+                                    </span>
+                                }
+                            </a>
+                        </li>
                         <li class="nav-item"><a class="nav-link text-white" href="/Post">Post</a></li>
                     }
                 </ul>

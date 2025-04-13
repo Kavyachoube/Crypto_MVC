@@ -1,4 +1,4 @@
-using Crypto_MVC.Models;
+﻿using Crypto_MVC.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +12,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+
+// ✅ Enable Session Services
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Register HttpClient for external API calls (e.g., CoinGeckoService)
 builder.Services.AddHttpClient<CoinGeckoService>();
@@ -31,9 +40,14 @@ if (!app.Environment.IsDevelopment())
 // Middleware setup
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+// ✅ Add Session Middleware after Routing
+app.UseSession();
 
 // Configure Routes
 app.MapControllerRoute(
