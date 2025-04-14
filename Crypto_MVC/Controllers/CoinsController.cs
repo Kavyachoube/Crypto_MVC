@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
+[Route("Coins")]
 public class CoinsController : Controller
 {
     private readonly CoinGeckoService _coinService;
@@ -27,7 +28,8 @@ public class CoinsController : Controller
             return View("Error", ex.Message);
         }
     }
-    [HttpGet("Coins/Details/{id}")]
+
+    [HttpGet("Details/{id}")]
     public async Task<IActionResult> Details(string id)
     {
         if (string.IsNullOrEmpty(id))
