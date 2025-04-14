@@ -311,32 +311,6 @@ input {
     border: none;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #00ADB5;
-    border: none;
-    color: white;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-    button:hover {
-        background-color: #008C9E;
-    }
-
-a {
-    color: #00ADB5;
-}
-
-.success-message {
-    background-color: #D4EDDA;
-    color: #155724;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}*/
 /* post */
 body {
     background-color: #121212;
