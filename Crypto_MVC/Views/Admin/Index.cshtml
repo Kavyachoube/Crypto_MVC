@@ -1,0 +1,36 @@
+﻿@model List<Crypto_MVC.Models.AppUser>
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2>Admin Dashboard</h2>
+<p>Total Users: @ViewBag.TotalUsers</p>
+<p>Total Admins: @ViewBag.TotalAdmins</p>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.Role</td>
+                <td>
+                    @if (user.Role != "Admin")
+                    {
+                        <form asp-action="Delete" method="post">
+                            <input type="hidden" name="username" value="@user.Username" />
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
