@@ -1,38 +1,45 @@
-﻿@model List<Crypto_MVC.Models.AppUser>
+﻿@model List<Crypto_MVC.Models.RegisterModel>
+
 @{
-    ViewData["Title"] = "Admin Panel";
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Admin Dashboard</h2>
-<p>Total Users: @ViewBag.TotalUsers</p>
-<p>Total Admins: @ViewBag.TotalAdmins</p>
+<div class="container mt-5 text-white">
+    <h2>Admin Dashboard</h2>
+    <p>Total Users: <strong>@ViewBag.TotalUsers</strong></p>
+    <p>Total Admins: <strong>@ViewBag.TotalAdmins</strong></p>
 
-<table class="table table-dark">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+    <table class="table table-bordered table-dark mt-4">
+        <thead>
             <tr>
-                <td>@user.Username</td>
-                <td>@user.Role</td>
-                <td>
-                    @if (user.Role != "Admin")
-                    {
-                        <form asp-action="Delete" method="post">
-                            <input type="hidden" name="username" value="@user.Username" />
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    }
-                </td>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
-}
-}
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>
+                        @if (user.Role != "Admin")
+                        {
+                            <form asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="username" value="@user.Username" />
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">Not allowed</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

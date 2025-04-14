@@ -1,4 +1,4 @@
-using Crypto_MVC.Models;
+﻿using Crypto_MVC.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -93,7 +93,12 @@ namespace Crypto_MVC.Controllers
                         cmd.ExecuteNonQuery();
 
                         TempData["msg"] = "Login successful!";
-                        return RedirectToAction("Index");
+
+                        // 🔥 Redirect based on role
+                        if (model.Role == "Admin")
+                            return RedirectToAction("Index", "Admin"); // admin dashboard
+                        else
+                            return RedirectToAction("Index", "Home"); // regular homepage
                     }
                     else
                     {
