@@ -3,7 +3,7 @@
     ViewData["Title"] = "My Watchlist";
 }
 
-<h2 class="text-center mb-4">My Watchlist</h2>
+<h2 class="text-center mb-4 text-white">My Watchlist</h2>
 
 @if (!Model.Any())
 {
@@ -15,9 +15,23 @@ else
         @foreach (var coin in Model)
         {
             <div class="col-md-4 mb-4">
-                <div class="card bg-dark text-white p-3 h-100">
-                    <h5>@coin.Name (@coin.Symbol.ToUpper())</h5>
-                    <p>Price: $@coin.CurrentPrice</p>
+                <div class="card bg-dark text-white p-3 h-100 shadow-sm">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="@coin.Image" alt="@coin.Name Logo" width="40" height="40" class="me-3" />
+                        <div>
+                            <h5 class="mb-0">@coin.Name (@coin.Symbol.ToUpper())</h5>
+                            <small class="text-muted">Rank #@coin.MarketCapRank</small>
+                        </div>
+                    </div>
+
+                    <p><strong>Price:</strong> $@coin.CurrentPrice.ToString("N2")</p>
+                    <p>
+                        <strong>24h Change:</strong>
+                        <span class="@(coin.PriceChangePercentage24h >= 0 ? "text-success" : "text-danger")">
+                            @coin.PriceChangePercentage24h?.ToString("0.##")%
+                        </span>
+                    </p>
+
                     <form asp-action="Remove" asp-controller="Watchlist" method="post">
                         <input type="hidden" name="id" value="@coin.Id" />
                         <button type="submit" class="btn btn-danger btn-sm">Remove</button>
