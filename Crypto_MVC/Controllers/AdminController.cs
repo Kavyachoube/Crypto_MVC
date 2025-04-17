@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Crypto_MVC.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
@@ -54,7 +57,7 @@ public class AdminController : Controller
     {
         var posts = new List<PostModel>();
 
-        using (SqlConnection con = new SqlConnection("Server=(localdb)\\MSSQLLocalDB;Database=CryptoVerseDB;Trusted_Connection=True"))
+        using (SqlConnection con = new SqlConnection(connectionString))
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM Posts", con);
             con.Open();
@@ -76,6 +79,7 @@ public class AdminController : Controller
 
         return View(posts);
     }
+
     [HttpPost]
     public IActionResult DeletePost(int id)
     {
@@ -90,4 +94,3 @@ public class AdminController : Controller
         return RedirectToAction("ManagePosts");
     }
 }
-
