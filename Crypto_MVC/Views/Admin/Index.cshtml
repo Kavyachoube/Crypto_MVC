@@ -12,6 +12,10 @@
     <p>Total Admins: <strong>@ViewBag.TotalAdmins</strong></p>
 
     <div class="mb-3">
+        <a asp-controller="Admin" asp-action="ManagePosts" class="btn btn-success">Manage Posts</a>
+    </div>
+
+    <div class="mb-3">
         <input type="text" class="form-control" id="searchBox" placeholder="Search by username or email..." onkeyup="filterTable()" />
     </div>
 
