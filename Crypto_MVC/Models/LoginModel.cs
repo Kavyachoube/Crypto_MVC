@@ -22,7 +22,7 @@ namespace Crypto_MVC.Models
         public string? Role { get; set; }
 
 
-        //Retrieve all records from a table
+        //Retrieve all records from the table
         public List<LoginModel> getData()
         {
             List<LoginModel> lstUser = new List<LoginModel>();
