@@ -17,3 +17,4 @@ namespace Crypto_MVC.Helpers
         }
     }
 }
+// session is a dictionary-like object that stores data for the user session
